@@ -1,6 +1,6 @@
 "use client";
 
-import { Base_Sepolia } from "@/assets/data/chains";
+import { rariChain } from "@/assets/data/chains";
 import CoinbaseWalletSDK from "@coinbase/wallet-sdk";
 import WalletConnect from "@walletconnect/web3-provider";
 import { createWeb3Modal, defaultConfig } from "@web3modal/ethers/react";
@@ -11,7 +11,7 @@ interface Props {
 	children: ReactNode;
 }
 
-const chains = [Base_Sepolia];
+const chains = [rariChain];
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID!;
 const alchemyId = process.env.NEXT_PUBLIC_ALCHEMY_ID!;
 
@@ -21,7 +21,7 @@ export const providerOptions = {
 		options: {
 			appName: "WAGMI Club",
 			rpc: {
-				1: `https://sepolia.base.org`,
+				1: `https://testnet.rpc.rarichain.org/http`,
 			},
 		},
 	},
@@ -29,7 +29,7 @@ export const providerOptions = {
 		package: WalletConnect,
 		options: {
 			rpc: {
-				1: `https://sepolia.base.org`,
+				1: `https://testnet.rpc.rarichain.org/http`,
 			},
 		},
 	},
@@ -56,7 +56,7 @@ createWeb3Modal({
 	projectId,
 	ethersConfig,
 	enableAnalytics: true,
-	defaultChain: Base_Sepolia,
+	defaultChain: rariChain,
 });
 
 export const Web3Modal: FC<Props> = ({ children }) => {

@@ -21,3 +21,4 @@ contracts/contracts/interfaces/IERC721Enumerable.sol
 contracts/contracts/VRC725.sol
 contracts/contracts/NFTcontract.sol
 contracts/scripts/deployNFT.js
+todo.txt

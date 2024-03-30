@@ -1,7 +1,7 @@
-export const Base_Sepolia= {
-	chainId: 84532,
-	name: `Base_Sepolia`,
+export const rariChain= {
+	chainId: 1918988905,
+	name: `RariChain`,
 	currency: `ETH`,
-	rpcUrl: `https://sepolia.base.org`,
-	explorerUrl: `https://sepolia-explorer.base.org`,
+	rpcUrl: `https://testnet.rpc.rarichain.org/http`,
+	explorerUrl: ``,
 };

@@ -17,8 +17,8 @@ module.exports = {
   networks: {
     hardhat: {
     },
-    Base: {
-      url: "https://sepolia.base.org",
+    Rarichain: {
+      url: "https://testnet.rpc.rarichain.org/http",
       accounts: [process.env.PRIVATE_KEY]
     }
   }
