@@ -3,6 +3,7 @@ const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
 const { CovalentClient } = require("@covalenthq/client-sdk");
+const axios = require('axios');
 
 // Import Moralis
 const Moralis = require("moralis").default;
@@ -44,6 +45,7 @@ app.use(express.json());
 
 const moralisApiKey = process.env.MORALIS_API;
 const covalentApiKey = process.env.COVALENT_API;
+const raribleApiKey = process.env.RARIBLE_APIKEY;
 
 const privateKey = process.env.privateKey;
 
@@ -242,11 +244,25 @@ app.get("/getEligibleArray/:tokenId", async (req, res) => {
 
 // function to get the amount of NFTs of a collection an account has
 const getCollectionAmount = async (address, _chain, nftAddress) => {
-  if (_chain == "Viction") {
     try {
-      const result = victionNftCheck(address);
+      var chain;
+      switch (_chain) {
+        case "Eth Sepolia":
+          chain = "ETHEREUM";
+          break;
+      case "Polygon Mumbai":
+          chain = "POLYGON";
+          break;
+      case "Base Sepolia":
+          chain = "BASE";
+          break;
+      default:
+          chain = "RARI";
+      }
+      
+      const result = await NftSumCheck(chain, address);
 
-      const amount = AmountByAddress(result, nftAddress);
+      const amount = AmountByAddress(result, nftAddress, chain);
       console.log(amount);
       return amount;
     
@@ -254,42 +270,6 @@ const getCollectionAmount = async (address, _chain, nftAddress) => {
           console.error(error);
           return error;
       }
-  } else {
-    var chain;
-    switch (_chain) {
-        case "Lukso":
-            chain = EvmChain.MUMBAI;
-            break;
-        case "Eth Sepolia":
-            chain = EvmChain.SEPOLIA;
-            break;
-        case "Polygon Mumbai":
-            chain = EvmChain.MUMBAI;
-            break;
-        case "BSC Testnet":
-            chain = EvmChain.BSC_TESTNET;
-            break;
-        default:
-            chain = EvmChain.MUMBAI;
-    }
-  
-    // check moralis API on how to get the name of an NFT collection fromt the contract address
-    try {
-    const response = await Moralis.EvmApi.nft.getWalletNFTs({
-        address,
-        chain
-    });
-  
-    const amount = sumAmountByAddress(response.raw.result, nftAddress);
-    console.log(amount);
-    return amount;
-  
-    } catch (error) {
-        console.error(error);
-        return error;
-    }
-  }
-  // const address = "0xd8da6bf26964af9d7eed9e03e53415d37aa96045"
 }
 
 const sumAmountByAddress = (data, address) => {
@@ -307,11 +287,15 @@ const sumAmountByAddress = (data, address) => {
   return sum;
 }
 
-const AmountByAddress = (data, address) => {
+const AmountByAddress = (data, address, chain) => {
   // Filter the array to include only objects with the specified 'name'
   console.log('data', data);
-  const add = Number(address);
-  const filteredData = data.filter((item) => item.contract_address == add);
+  var filteredData = [];
+  for (let i = 0; i < data.length; i++) {
+      if (data[i].item.contract.includes(address) && data[i].item.contract.includes(chain)) {
+        filteredData.push(data[i]);
+      }
+  }
   console.log('address', add);
   console.log('filtered data', filteredData);
 
@@ -1086,17 +1070,11 @@ app.put("/updateBadgeAddress/:orgAddress", async(req, res) => {
 // endpoint to store the address
 // endpoint to get badge details
 
-const getTransactionAmount = async () => {
-  const address = "0x68360457a590318778fC346CDe64E327Dc6A5C0a";
-  const _chain = "Viction";
-  const contractAddress = "0xdef1c0ded9bec7f1a1670819833240f027b25eff";
+const getTransactionAmount = async (address, _chain, contractAddress) => {
 
   var chain;
   switch (_chain) {
-    case "Viction":
-      chain = "tomochain-testnet";
-      break;
-  case "Eth Sepolia":
+    case "Eth Sepolia":
       chain = "eth-sepolia";
       break;
   case "Polygon Mumbai":
@@ -1106,7 +1084,7 @@ const getTransactionAmount = async () => {
       chain = "bsc-testnet";
       break;
   default:
-      chain = "tomochain-testnet";
+      chain = "base-sepolia-testnet";
   }
 
   try {
@@ -1128,19 +1106,21 @@ const getTransactionAmount = async () => {
 
 }
 
-const victionNftCheck = async(address) => {
+const NftSumCheck = async(address) => {
   try {
-    const client = new CovalentClient(covalentApiKey);
-    const queryParamOpts = {
-      withUncached: true,
+    const options = {
+      method: 'GET',
+      url: `https://testnet-api.rarible.org/v0.1/items/byOwnerWithOwnership?owner=ETHEREUM%3A${address}`,
+      headers: {
+        accept: 'application/json',
+        'X-API-KEY': raribleApiKey
+      }
     };
-    const request = await client.NftService.getNftsForAddress("tomochain-testnet", address, queryParamOpts);
-    if (!request.error) {
-        console.log(request.data.items);
-        return request.data.items;
-    } else {
-        console.log(request.error_message);
-    }
+  
+    const response = await axios(options);
+    const items = response.data.items;
+
+    return items;
   } catch (error) {
     console.log(error);
   }

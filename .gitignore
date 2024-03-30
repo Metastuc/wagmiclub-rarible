@@ -22,3 +22,5 @@ contracts/contracts/VRC725.sol
 contracts/contracts/NFTcontract.sol
 contracts/scripts/deployNFT.js
 todo.txt
+server/encodeRequest.js
+server/wagmi-club-firebase-adminsdk-cde6r-4f3cc52568.json
