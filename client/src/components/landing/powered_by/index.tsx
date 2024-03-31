@@ -42,19 +42,19 @@ export const PoweredBy = ({ group }: { group: string }) => {
 
 					<div>
 						<img
-							src="/chainlinkLogo.jpg"
+							src="/poweredby.jpg"
 							alt=""
 						/>
 					</div>
 
-					<div>
+					{/* <div>
 						<i>
 							<img
 								src="/base.png"
 								alt=""
 							/>
 						</i>
-					</div>
+					</div> */}
 				</div>
 			</div>
 		</section>

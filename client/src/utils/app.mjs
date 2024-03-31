@@ -58,14 +58,14 @@ export const connectWallet = async() => {
             const currentNetwork = await provider.getNetwork();
             const _currentNetworkId = currentNetwork.chainId;
             const currentNetworkId = Number(_currentNetworkId);
-            if (currentNetworkId === 0x14A34) { // checking if the network is available on the wallet
+            if (currentNetworkId === 0x72617269) { // checking if the network is available on the wallet
                 await provider.send("eth_requestAccounts", []);
                 signer = await provider.getSigner();
             } else {
                 try {
                     await ethereum.request({
                         method: 'wallet_switchEthereumChain',
-                        params: [{ chainId: '0x14A34' }],
+                        params: [{ chainId: '0x72617269' }],
                     });
                     await provider.send("eth_requestAccounts", []);
                     signer = await provider.getSigner();
@@ -76,15 +76,15 @@ export const connectWallet = async() => {
                                 method: 'wallet_addEthereumChain',
                                 params: [
                                     {
-                                      chainId: '0x14A34',
-                                      chainName: 'Base Sepolia',
-                                      rpcUrls: ['https://sepolia.base.org'],
+                                      chainId: '0x72617269',
+                                      chainName: 'Rarichain',
+                                      rpcUrls: ['https://testnet.rpc.rarichain.org/http'],
                                     },
                                   ],
                             });
                             await ethereum.request({
                                 method: 'wallet_switchEthereumChain',
-                                params: [{ chainId: '0x14A34' }],
+                                params: [{ chainId: '0x72617269' }],
                             });
                             await provider.send("eth_requestAccounts", []);
                             signer = await provider.getSigner();
@@ -97,7 +97,7 @@ export const connectWallet = async() => {
                 }
                 await window.ethereum.request({
                     method: 'wallet_switchEthereumChain',
-                    params: [{ chainId: '0x14A34' }],
+                    params: [{ chainId: '0x72617269' }],
                   });
             }
         }

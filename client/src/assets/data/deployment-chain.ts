@@ -4,6 +4,15 @@ export const DEPLOYMENT_CHAINS = [
 	{
 		id: 0,
 		value: {
+			image: "rarichain.png",
+			title: "Rarichain",
+			utility: "Rarichain",
+			bgColor: "",
+		},
+	},
+	{
+		id: 1,
+		value: {
 			image: "base.gif",
 			title: "Base",
 			utility: "Base",
@@ -11,7 +20,7 @@ export const DEPLOYMENT_CHAINS = [
 		},
 	},
 	{
-		id: 1,
+		id: 2,
 		value: {
 			image: "arbitrum.png",
 			title: "Arbitrum",
@@ -20,7 +29,7 @@ export const DEPLOYMENT_CHAINS = [
 		},
 	},
 	{
-		id: 2,
+		id: 3,
 		value: {
 			image: "viction-small.jpg",
 			title: "Viction",
@@ -29,7 +38,7 @@ export const DEPLOYMENT_CHAINS = [
 		},
 	},
 	{
-		id: 3,
+		id: 4,
 		value: {
 			image: "luksoIcon.png",
 			title: "Lukso",
@@ -38,7 +47,7 @@ export const DEPLOYMENT_CHAINS = [
 		},
 	},
 	{
-		id: 4,
+		id: 5,
 		value: {
 			icon: Sepolia,
 			title: "Eth Sepolia",
@@ -47,7 +56,7 @@ export const DEPLOYMENT_CHAINS = [
 		},
 	},
 	{
-		id: 5,
+		id: 6,
 		value: {
 			image: "polygon.jpg",
 			title: "Polygon Mumbai",
@@ -56,7 +65,7 @@ export const DEPLOYMENT_CHAINS = [
 		},
 	},
 	{
-		id: 6,
+		id: 7,
 		value: {
 			icon: BNB,
 			utility: "BSC Testnet",
