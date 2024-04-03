@@ -1,1 +1,1 @@
-# wagmiclub-base
+# wagmiclub-rarichain
